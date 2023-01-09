@@ -1,0 +1,5 @@
+#slider-wrap {width: 100%; height: 400px; position: relative;}
+#slider-wrap #slider { width: 100%; height: 100%; overflow: hidden; }
+#slider-wrap #slider .slide { width: 100%; height: 100%; }
+#slider-wrap .slider-btns { position: absolute; top: 50%; transform: translateY(-50%); display: flex; justify-content: space-between; width: 100%;  }
+#slider-wrap .slider-btns button { cursor: pointer; }

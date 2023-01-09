@@ -4,6 +4,7 @@ const slide = document.querySelectorAll('#slider-wrap .slide');
 const btns = document.querySelectorAll('#slider-wrap .slider-btn-wrap');
 
 let slideIdx = 0;
+let btnDisabled = true;
 
 firstSilde = slide[0];
 lastSilde = slide[slide.length-1];
@@ -17,6 +18,10 @@ lastSilde.after(firstSildeNode);
 
 for (const btn of btns) {
     btn.addEventListener('click',function name(e) {
+        e.target.setAttribute('disabled','disabled');
+        setTimeout(() => {
+            e.target.removeAttribute('disabled')
+        }, 500);
         e.target.className == 'next' ? moveSlide(1): moveSlide(-1);
     })
 }

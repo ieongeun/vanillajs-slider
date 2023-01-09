@@ -46,3 +46,8 @@ function moveSlide(direction) {
         },500)
     }
 }
+
+window.addEventListener('resize',function () {
+    slideWidth = window.innerWidth;
+    slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'});
+})

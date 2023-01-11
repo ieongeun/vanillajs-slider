@@ -3,7 +3,7 @@ const slider = document.querySelector('#slider-wrap #slider');
 const slide = document.querySelectorAll('#slider-wrap .slide');
 const btns = document.querySelectorAll('#slider-wrap .slider-btn-wrap');
 
-let slideIdx = 0;
+
 let btnDisabled = true;
 
 firstSilde = slide[0];
@@ -31,11 +31,14 @@ let clonedSlideLength = slide.length + 2;
 let firstSildeIdx = 1;
 let lastSlideIdx = slide.length;
 let slideWidth = window.innerWidth;
+let slideIdx = 4;
+slider.scrollLeft = (slideWidth * slideIdx);
 
 function moveSlide(direction) {
     slideIdx += direction;
+    console.log(slideIdx);
     slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'});
-    if (slideIdx == 0 || slideIdx == clonedSlideLength - 1) {
+    if (slideIdx <= 0 || slideIdx == clonedSlideLength - 1) {
         if (slideIdx == 0 ) {
             slideIdx = lastSlideIdx;
         } else {
@@ -47,7 +50,10 @@ function moveSlide(direction) {
     }
 }
 
+
 window.addEventListener('resize',function () {
     slideWidth = window.innerWidth;
     slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'});
 })
+
+

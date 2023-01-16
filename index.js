@@ -15,6 +15,10 @@ lastSildeNode = lastSilde.cloneNode(true);
 firstSilde.before(lastSildeNode);
 lastSilde.after(firstSildeNode);
 
+function scrollLeft() {
+    slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'});
+}
+
 
 for (const btn of btns) {
     btn.addEventListener('click',function name(e) {
@@ -35,7 +39,7 @@ slider.scrollLeft = (slideWidth * (slideIdx + 1));
 function moveSlide(direction) {
     preSlideIdx = slideIdx;
     slideIdx += direction;
-    slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'});
+    scrollLeft();
     if (slideIdx  == -1 || slideIdx == slideLength ) {
         if (slideIdx == -1 ) {
             slideIdx = slideLength - 1;
@@ -51,7 +55,7 @@ function moveSlide(direction) {
 
 window.addEventListener('resize',function () {
     slideWidth = window.innerWidth;
-    slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'});
+    scrollLeft();
 })
 
     let startX;
@@ -68,7 +72,7 @@ window.addEventListener('resize',function () {
         if(Math.abs(diffX)>= window.innerWidth / 2) {
             (diffX > 0) ? moveSlide(1): moveSlide(-1);
         }else{
-            slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'})
+            scrollLeft()
         }
     })
 
@@ -97,7 +101,7 @@ window.addEventListener('resize',function () {
         item.addEventListener('click',function name() {
             preSlideIdx = slideIdx;
             slideIdx = index;
-            slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'})
+            scrollLeft()
             activePagination();
         })
     });

@@ -27,34 +27,32 @@ for (const btn of btns) {
 }
 
 let slideLength = slide.length;
-let clonedSlideLength = slide.length + 2;
-let firstSildeIdx = 1;
-let lastSlideIdx = slideLength;
 let slideWidth = window.innerWidth;
-let slideIdx = 4; // 이거 하드코딩이다 
-slider.scrollLeft = (slideWidth * slideIdx);
+let slideIdx = 0;
+let preSlideIdx = slideIdx;
+slider.scrollLeft = (slideWidth * (slideIdx + 1));
 
 function moveSlide(direction) {
+    preSlideIdx = slideIdx;
     slideIdx += direction;
-    console.log(slideIdx);
-    slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'});
-    if (slideIdx <= 0 || slideIdx == clonedSlideLength - 1) {
-        if (slideIdx == 0 ) {
-            slideIdx = lastSlideIdx;
+    slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'});
+    if (slideIdx  == -1 || slideIdx == slideLength ) {
+        if (slideIdx == -1 ) {
+            slideIdx = slideLength - 1;
         } else {
-            slideIdx = firstSildeIdx;
+            slideIdx = 0;
         }
         setTimeout(function name(params) {
-            slider.scrollLeft = (slideWidth * slideIdx);
+            slider.scrollLeft = (slideWidth * (slideIdx + 1));
         },500)
     }
+    activePagination();
 }
 
 window.addEventListener('resize',function () {
     slideWidth = window.innerWidth;
-    slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'});
+    slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'});
 })
-
 
     let startX;
     let endX;
@@ -70,20 +68,36 @@ window.addEventListener('resize',function () {
         if(Math.abs(diffX)>= window.innerWidth / 2) {
             (diffX > 0) ? moveSlide(1): moveSlide(-1);
         }else{
-            slider.scroll({left:(slideWidth * slideIdx), behavior:'smooth'})
+            slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'})
         }
     })
 
     slider.addEventListener('touchmove',function name(e) {
         moveX = e.touches[0].clientX;
         diffX = startX -moveX;
-        slider.scrollLeft = (slideWidth * slideIdx)+ diffX;
+        slider.scrollLeft = (slideWidth * (slideIdx + 1))+ diffX;
     });
 
     // 페이지네이션
-    const pagination = document.querySelector('#slider-wrap ul.pagination-wrap');
+    const paginationWrap = document.querySelector('#slider-wrap ul.pagination-wrap');
     for (let i = 0; i < slideLength; i++) {
         const paginationItem = document.createElement('li');
-        pagination.appendChild(paginationItem);
+        paginationWrap.appendChild(paginationItem);
     }
+    const pagination = document.querySelectorAll('#slider-wrap ul.pagination-wrap li');
+    pagination[slideIdx].classList.add('active');
     // paginationItem.setAttribute('','');
+
+    function activePagination(params) {
+        pagination[preSlideIdx].classList.remove('active');
+        pagination[slideIdx].classList.add('active');
+    }
+
+    pagination.forEach((item,index) => {
+        item.addEventListener('click',function name() {
+            preSlideIdx = slideIdx;
+            slideIdx = index;
+            slider.scroll({left:(slideWidth * (slideIdx + 1)), behavior:'smooth'})
+            activePagination();
+        })
+    });
